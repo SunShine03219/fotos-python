@@ -27,16 +27,14 @@ sudo docker compose up -d
 PG_USER=admin
 # Change for your password
 PG_PASS=admin
-# CONFIGURE BELOW USING YOUR INFORMATIONS CREATED ABOVE 
+# CONFIGURE BELOW USING YOUR INFORMATIONS CREATED ABOVE
 DATABASE_URL=postgresql+asyncpg://admin:admin@localhost:5432/backend
 # CONFIGURE BELOW USING YOUR TEST DATABASE INFORMATION
 DATABASE_TEST_URL=postgresql+asyncpg://admin:admin@localhost:5432/tests
-REDIS_PASS=admin # Change your Redis password
-CACHE_LOCAL_MAXSIZE=1000 # Local cache max size
-CACHE_LOCAL_TIME=36000 # Local cache time
+
 
 # Change it for use your secrete key (token generation/validate)
-SECRET_KEY=secret 
+SECRET_KEY=secret
 
 # Change to false when test
 PRODUCTION_MODE=True

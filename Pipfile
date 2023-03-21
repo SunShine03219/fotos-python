@@ -24,6 +24,7 @@ httpx = "*"
 python-multipart = "*"
 pydantic = "*"
 alembic = "*"
+google-cloud-storage = "==2.7.0"
 
 [dev-packages]
 

@@ -4,6 +4,7 @@ from fastapi import APIRouter, FastAPI
 
 from routers.home import home_router
 from routers.login import login_router
+from routers.pictures import pic_router
 from routers.users import user_router
 
 
@@ -13,6 +14,7 @@ class RouterDefiner:
             home_router,
             user_router,
             login_router,
+            pic_router,
         ]
 
     def define_routers(self, app: FastAPI):

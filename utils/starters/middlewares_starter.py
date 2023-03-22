@@ -2,6 +2,7 @@ from typing import Callable, List
 
 from fastapi import FastAPI
 from starlette.exceptions import HTTPException
+
 from utils.middlewares.exception_handler import internal_exception_handler
 
 

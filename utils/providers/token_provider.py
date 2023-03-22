@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Optional
 
 import jwt
+
 from config import Config
 from utils.exceptions.exception import UnauthorizedLogin
 

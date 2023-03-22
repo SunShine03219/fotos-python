@@ -1,10 +1,10 @@
 from asyncio import get_event_loop_policy
 
 import pytest
-from config import Config
 from httpx import AsyncClient
-from main import create_app
 
+from config import Config
+from main import create_app
 from persistency.connection import get_db
 from persistency.connection_for_test_db import drop_db, get_test_db
 

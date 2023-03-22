@@ -1,3 +1,6 @@
+from logic.user_services import UserService
+from persistency.schemas.login_schemas import LoginInput
+from persistency.schemas.user_schemas import UserInput, UserUpdateInput
 from utils.exceptions.exception import (
     InvalidEmailInserted,
     UnauthorizedLogin,
@@ -9,10 +12,6 @@ from utils.providers.hash_provider import verify_hash
 from utils.providers.token_provider import jwt_encoder
 from utils.validators.email_address_validator import email_validator
 from utils.validators.strong_password_validator import password_validator
-
-from logic.user_services import UserService
-from persistency.schemas.login_schemas import LoginInput
-from persistency.schemas.user_schemas import UserInput, UserUpdateInput
 
 
 async def user_login_service_validator(login_data: LoginInput):

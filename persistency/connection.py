@@ -1,6 +1,7 @@
-from config import Config
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+from config import Config
 
 # Loading config to get database_url
 DATABASE_URL = Config.DATABASE_URL

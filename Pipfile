@@ -17,7 +17,7 @@ flake8 = "*"
 pyproject-flake8 = "*"
 pyjwt = "*"
 pytest = "*"
-passlib = {extras = ["bcrypt"], version = "*"}
+passlib = { extras = ["bcrypt"], version = "*" }
 pytest-asyncio = "*"
 email-validator = "*"
 httpx = "*"

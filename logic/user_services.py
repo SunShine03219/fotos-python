@@ -1,13 +1,13 @@
 from sqlalchemy import delete, insert, select, update
+
+from persistency.models.models import User
+from persistency.schemas.user_schemas import UserInput, UserUpdateInput
 from utils.middlewares.session_controller import (
     QueryResponseOptions,
     ReadDatabaseSession,
     WriteDatabaseSession,
 )
 from utils.providers.hash_provider import generate_hash
-
-from persistency.models.models import User
-from persistency.schemas.user_schemas import UserInput, UserUpdateInput
 
 
 class UserService:

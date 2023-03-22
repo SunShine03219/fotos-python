@@ -13,7 +13,7 @@ lint:
 	pflake8
 
 format:
-	isort --profile=black logic migrations persistency routers tests utils
+	isort logic migrations persistency routers tests utils
 	black logic migrations persistency routers tests utils
 
 test:

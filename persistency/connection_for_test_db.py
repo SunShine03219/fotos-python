@@ -1,7 +1,7 @@
+from config import Config
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from config import Config
 from persistency.connection import Base
 from persistency.models.models import User
 from tests.schemas_tests.users_tests_schemas import DEFAULT_ADMIN

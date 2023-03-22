@@ -2,6 +2,7 @@ from enum import Enum
 from functools import wraps
 
 from config import Config
+
 from persistency.connection import get_db
 from persistency.connection_for_test_db import get_test_db
 

@@ -4,16 +4,7 @@ from .base import BaseInternalException
 class UserAlreadyExists(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Error inserting on database",
-            description=description,
-            status_code=400,
-        )
-
-
-class InvalidCpfInserted(BaseInternalException):
-    def __init__(self, description: str):
-        super().__init__(
-            name="Error inserting on database",
+            name="USER_EXIST",
             description=description,
             status_code=400,
         )
@@ -22,7 +13,7 @@ class InvalidCpfInserted(BaseInternalException):
 class InvalidEmailInserted(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Error inserting on database",
+            name="INV_EMAIL",
             description=description,
             status_code=400,
         )
@@ -31,7 +22,7 @@ class InvalidEmailInserted(BaseInternalException):
 class WeakPasswordInserted(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Error inserting on database",
+            name="INV_PASS",
             description=description,
             status_code=400,
         )
@@ -40,7 +31,7 @@ class WeakPasswordInserted(BaseInternalException):
 class UnauthorizedLogin(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Authentication fail",
+            name="AUTH_FAIL",
             description=description,
             status_code=401,
         )
@@ -49,7 +40,7 @@ class UnauthorizedLogin(BaseInternalException):
 class ForbiddenToken(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Not authorized",
+            name="NOT_ADMIN",
             description=description,
             status_code=403,
         )
@@ -58,7 +49,7 @@ class ForbiddenToken(BaseInternalException):
 class UserNotExists(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Not found user",
+            name="USER_NOT_FOUND",
             description=description,
             status_code=404,
         )
@@ -67,7 +58,7 @@ class UserNotExists(BaseInternalException):
 class InvalidToken(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="Invalid token",
+            name="INV_TOKEN",
             description=description,
             status_code=401,
         )
@@ -76,7 +67,7 @@ class InvalidToken(BaseInternalException):
 class ForbiddenChanges(BaseInternalException):
     def __init__(self, description: str):
         super().__init__(
-            name="This user can not be make this changes",
+            name="CANT_CHANGE",
             description=description,
             status_code=401,
         )

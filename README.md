@@ -32,6 +32,11 @@ DATABASE_URL=postgresql+asyncpg://admin:admin@localhost:5432/backend
 # CONFIGURE BELOW USING YOUR TEST DATABASE INFORMATION
 DATABASE_TEST_URL=postgresql+asyncpg://admin:admin@localhost:5432/tests
 
+# Default Admin
+NAME="Nome do user"
+EMAIL="user@gmail.com"
+PASSWORD="1234567"
+
 
 # Change it for use your secrete key (token generation/validate)
 SECRET_KEY=secret

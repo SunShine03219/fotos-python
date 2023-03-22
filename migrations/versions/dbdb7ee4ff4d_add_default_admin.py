@@ -28,7 +28,7 @@ def upgrade() -> None:
     op.execute(
         f"""
         INSERT INTO "user" (name, email, password, role)
-        VALUES ('{name}', '{email}', '{generate_hash(password)}', 'Admin')
+        VALUES ('{name}', '{email}', '{generate_hash(password)}', 'admin')
         """
     )
 

@@ -25,7 +25,5 @@ class Config(metaclass=SingletonMeta):
     load_dotenv()
     production_mode = getenv("PRODUCTION_MODE", default=True)
     SECRET_KEY = getenv("SECRET_KEY", default="secret")
-    CACHE_LOCAL_MAXSIZE = getenv("CACHE_LOCAL_MAXSIZE", default=1000)
-    CACHE_LOCAL_TIME = getenv("CACHE_LOCAL_TIME", default=36000)
     DATABASE_URL = getenv("DATABASE_URL")
     DATABASE_TEST_URL = getenv("DATABASE_TEST_URL")

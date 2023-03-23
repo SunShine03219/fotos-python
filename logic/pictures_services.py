@@ -1,6 +1,7 @@
 import mimetypes
 
 from fastapi import Response
+
 from utils.middlewares.google_credentials_provider import (
     get_cloud_storage_client,
 )

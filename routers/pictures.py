@@ -1,12 +1,12 @@
 from fastapi import APIRouter
+
+from logic.pictures_services import Pictures
 from utils.middlewares.google_credentials_provider import (
     get_cloud_storage_client,
 )
 from utils.validators.pictures_services_validator import (
     file_or_folder_validator,
 )
-
-from logic.pictures_services import Pictures
 
 pic_router = APIRouter(prefix="/pictures", tags=["pictures"])
 

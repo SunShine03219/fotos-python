@@ -1,10 +1,10 @@
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-from utils.exceptions.exception import ForbiddenToken, UnauthorizedLogin
-from utils.providers.token_provider import verify_jwt_token
 
 from logic.user_services import UserService
 from persistency.schemas.user_schemas import RoleOptions
+from utils.exceptions.exception import ForbiddenToken, UnauthorizedLogin
+from utils.providers.token_provider import verify_jwt_token
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 

@@ -1,4 +1,5 @@
 import pytest
+
 from utils.validators.email_address_validator import email_validator
 from utils.validators.strong_password_validator import password_validator
 

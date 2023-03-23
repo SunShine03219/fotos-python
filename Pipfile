@@ -13,11 +13,11 @@ aioredis = "*"
 cachetools = "*"
 isort = "*"
 black = "*"
-flake8 = "*"
+flake8 = "==4.0.1"
 pyproject-flake8 = "*"
 pyjwt = "*"
 pytest = "*"
-passlib = {extras = ["bcrypt"], version = "*"}
+passlib = { extras = ["bcrypt"], version = "*" }
 pytest-asyncio = "*"
 email-validator = "*"
 httpx = "*"

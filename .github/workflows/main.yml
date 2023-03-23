@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: [ push ]
 
 jobs:
   lint:
@@ -65,7 +65,7 @@ jobs:
         run: |
           pipenv run alembic upgrade head
       - name: Confirm existent databases
-        run:  |
+        run: |
           docker exec postgresql psql -U admin -l
           docker exec postgresql psql -U admin -d backend -c "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user';"
           docker exec postgresql psql -U admin -d tests -c "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user';"

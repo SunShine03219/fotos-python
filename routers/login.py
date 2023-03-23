@@ -1,9 +1,9 @@
 from fastapi import APIRouter
+
+from persistency.schemas.login_schemas import LoginInput, LoginOutput
 from utils.validators.user_services_validator import (
     user_login_service_validator,
 )
-
-from persistency.schemas.login_schemas import LoginInput, LoginOutput
 
 login_router = APIRouter(prefix="/login", tags=["login"])
 

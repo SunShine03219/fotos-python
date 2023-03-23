@@ -1,4 +1,5 @@
 import pytest
+
 from utils.exceptions.exception import UnauthorizedLogin
 from utils.providers.token_provider import jwt_encoder, verify_jwt_token
 

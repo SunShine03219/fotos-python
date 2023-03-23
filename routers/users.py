@@ -1,16 +1,6 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
-from utils.exceptions.exception import ForbiddenChanges, UserNotExists
-from utils.validators.token_validator import (
-    validate_session,
-    validate_session_admin,
-)
-from utils.validators.user_services_validator import (
-    create_user_service_validator,
-    search_user_service_validator,
-    update_user_service_validator,
-)
 
 from logic.user_services import UserService
 from persistency.connection import get_db
@@ -20,6 +10,16 @@ from persistency.schemas.user_schemas import (
     UserOutput,
     UserOutputOnCreate,
     UserUpdateInput,
+)
+from utils.exceptions.exception import ForbiddenChanges, UserNotExists
+from utils.validators.token_validator import (
+    validate_session,
+    validate_session_admin,
+)
+from utils.validators.user_services_validator import (
+    create_user_service_validator,
+    search_user_service_validator,
+    update_user_service_validator,
 )
 
 user_router = APIRouter(prefix="/users", tags=["users"])

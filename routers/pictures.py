@@ -18,7 +18,6 @@ async def list_files():
     bucket = client.get_bucket("testes-roque")
     blobs = bucket.list_blobs()
     file_list = [blob.name for blob in blobs]
-    print(blobs.__dict__)
     return file_list
 
 

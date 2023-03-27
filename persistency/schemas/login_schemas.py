@@ -15,6 +15,7 @@ class LoginOutput(BaseModel):
 
 
 class MeOutput(BaseModel):
+    id: int
     name: str
     email: str
     role: Optional[RoleOptions]

@@ -1,5 +1,5 @@
 import mimetypes
-import urllib.parse
+from urllib.parse import quote
 
 from fastapi import Response
 
@@ -11,22 +11,16 @@ client = get_cloud_storage_client()
 
 
 class Pictures:
-    @staticmethod
     async def get_files_path(file_path: str = ""):
         bucket = client.get_bucket("testes-roque")
         blob = bucket.blob(blob_name=file_path)
 
         blobs = bucket.list_blobs(prefix=blob.name)
-        file_list = [b.name for b in blobs if b.name != blob.name]
+        file_list = [quote(b.name) for b in blobs if b.name != blob.name]
         return file_list
 
-    @staticmethod
-    async def get_image(file_path: str):
+    async def get_file_source(file_path: str):
         bucket = client.get_bucket("testes-roque")
-        parsed_url = urllib.parse.urlparse(file_path)
-        file_path = urllib.parse.unquote(
-            parsed_url.path
-        )  # Decodifica o nome do arquivo
         blob = bucket.blob(blob_name=file_path)
 
         try:

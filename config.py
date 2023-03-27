@@ -29,15 +29,13 @@ class Config(metaclass=SingletonMeta):
     DATABASE_TEST_URL = getenv("DATABASE_TEST_URL")
 
     # Google Cloud Service Account Access Credentials
-    TYPE = getenv("TYPE", default="")
-    PROJECT_ID = getenv("PROJECT_ID", default="")
-    PRIVATE_KEY_ID = getenv("PRIVATE_KEY_ID", default="")
-    PRIVATE_KEY = getenv("PRIVATE_KEY", default="")
-    CLIENT_EMAIL = getenv("CLIENT_EMAIL", default="")
-    CLIENT_ID = getenv("CLIENT_ID", default="")
-    AUTH_URI = getenv("AUTH_URI", default="")
-    TOKEN_URI = getenv("TOKEN_URI", default="")
-    AUTH_PROVIDER_x509_CERT_URL = getenv(
-        "AUTH_PROVIDER_x509_CERT_URL", default=""
-    )
-    CLIENT_x509_CERT_URL = getenv("CLIENT_x509_CERT_URL", default="")
+    TYPE = getenv("TYPE")
+    PROJECT_ID = getenv("PROJECT_ID")
+    PRIVATE_KEY_ID = getenv("PRIVATE_KEY_ID")
+    PRIVATE_KEY = getenv("PRIVATE_KEY")
+    CLIENT_EMAIL = getenv("CLIENT_EMAIL")
+    CLIENT_ID = getenv("CLIENT_ID")
+    AUTH_URI = getenv("AUTH_URI")
+    TOKEN_URI = getenv("TOKEN_URI")
+    AUTH_PROVIDER_x509_CERT_URL = getenv("AUTH_PROVIDER_x509_CERT_URL")
+    CLIENT_x509_CERT_URL = getenv("CLIENT_x509_CERT_URL")

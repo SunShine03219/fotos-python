@@ -67,14 +67,14 @@ async def update_user_service_validator(
     to_update = await UserService.get_user_by_id(user_id)
 
     if request_user.role == "admin":
+        if request_user.id == user_id and infos.new_password:
+            return verify_hash(infos.old_password or "", to_update.password)
         return True
 
     if request_user.id != user_id:
         return False
 
-    if infos.new_password and not verify_hash(
-        infos.old_password or "", to_update.password
-    ):
-        return False
+    if not infos.new_password:
+        return True
 
-    return True
+    return verify_hash(infos.old_password or "", to_update.password)

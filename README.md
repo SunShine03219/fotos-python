@@ -48,6 +48,21 @@ SECRET_KEY=secret
 
 # Change to false when test
 PRODUCTION_MODE=True
+
+# Chang it for use your API Cloud Credentials
+# Can you generate your service account here: https://console.cloud.google.com/iam-admin/serviceaccounts?
+# Give OWNER permissions for this account
+# Open your service account and generate a JSON Key, take your credentials and change just bellow
+TYPE=""
+PROJECT_ID=""
+PRIVATE_KEY_ID=""
+PRIVATE_KEY=""
+CLIENT_EMAIL=""
+CLIENT_ID=""
+AUTH_URI=""
+TOKEN_URI=""
+AUTH_PROVIDER_x509_CERT_URL=""
+CLIENT_x509_CERT_URL=""
 ```
 
 ## Start database migration (getting last version)

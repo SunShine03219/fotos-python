@@ -71,3 +71,12 @@ class ForbiddenChanges(BaseInternalException):
             description=description,
             status_code=401,
         )
+
+
+class InvalidCredentials(BaseInternalException):
+    def __init__(self, description: str):
+        super().__init__(
+            name="INV_GOOGLE_CRED",
+            description=description,
+            status_code=500,
+        )

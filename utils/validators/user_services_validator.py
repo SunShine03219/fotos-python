@@ -66,6 +66,9 @@ async def update_user_service_validator(
     request_user = await UserService.get_user(payload["sub"])
     to_update = await UserService.get_user_by_id(user_id)
 
+    if infos.new_password and not password_validator(infos.new_password):
+        raise WeakPasswordInserted("Invalid new password")
+
     if request_user.role == "admin":
         if request_user.id == user_id and infos.new_password:
             return verify_hash(infos.old_password or "", to_update.password)

@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File
+from typing import Annotated
 
 from logic.pictures_services import Pictures
 from utils.middlewares.google_credentials_provider import (
@@ -11,6 +12,18 @@ from utils.validators.pictures_services_validator import (
 pic_router = APIRouter(prefix="/pictures", tags=["pictures"])
 
 client = get_cloud_storage_client()
+
+
+@pic_router.post("/files")
+async def create_file(file: Annotated[bytes, File()]):
+    return {"file_size": len(file)}
+
+
+@pic_router.post("/upload")
+async def upload_file(file: UploadFile):
+    print("Entrei!")
+    print(file.filename)
+    return {"filename": "file.filename"}
 
 
 @pic_router.get("/{file_path:path}")

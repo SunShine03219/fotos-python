@@ -14,24 +14,31 @@ client = get_cloud_storage_client()
 
 class Pictures:
     def _create_tree(file_list: list):
-        root = {}
+        root = []
+        node_dict = {}
         for path in file_list:
             current_node = root
             parts = path.split("/")
             for i, part in enumerate(parts):
                 if not part:
                     continue
-                if i == len(parts) - 1 and not part.endswith("/"):
-                    current_node[part] = "File"
-                else:
-                    current_node = current_node.setdefault(part, {})
+                if part not in node_dict:
+                    node = {
+                        "title": part,
+                        "content": [] if i != len(parts) - 1 else [],
+                    }
+                    node_dict[part] = node
+                    current_node.append(node)
+                current_node = node_dict[part]["content"]
+                if isinstance(current_node, dict):
+                    break
         if len(file_list) > 0:
             common_prefix = os.path.commonprefix(file_list)
             if common_prefix:
                 prefix_parts = common_prefix.split("/")
                 for part in prefix_parts[:-1]:
-                    if part in root:
-                        root = root[part]
+                    if part in node_dict:
+                        root = node_dict[part]["content"]
         return root
 
     async def get_files_path(file_path: str = ""):
@@ -41,6 +48,7 @@ class Pictures:
 
             blobs = bucket.list_blobs(prefix=blob.name)
             file_list = [quote(b.name) for b in blobs if b.name != blob.name]
+            print(file_list)
             tree = Pictures._create_tree(file_list)
             return tree
         else:

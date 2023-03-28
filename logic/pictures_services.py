@@ -1,4 +1,5 @@
 import mimetypes
+import os
 from urllib.parse import quote
 
 from fastapi import Response
@@ -12,6 +13,27 @@ client = get_cloud_storage_client()
 
 
 class Pictures:
+    def _create_tree(file_list: list):
+        root = {}
+        for path in file_list:
+            current_node = root
+            parts = path.split("/")
+            for i, part in enumerate(parts):
+                if not part:
+                    continue
+                if i == len(parts) - 1 and not part.endswith("/"):
+                    current_node[part] = "File"
+                else:
+                    current_node = current_node.setdefault(part, {})
+        if len(file_list) > 0:
+            common_prefix = os.path.commonprefix(file_list)
+            if common_prefix:
+                prefix_parts = common_prefix.split("/")
+                for part in prefix_parts[:-1]:
+                    if part in root:
+                        root = root[part]
+        return root
+
     async def get_files_path(file_path: str = ""):
         if client:
             bucket = client.get_bucket("testes-roque")
@@ -19,7 +41,8 @@ class Pictures:
 
             blobs = bucket.list_blobs(prefix=blob.name)
             file_list = [quote(b.name) for b in blobs if b.name != blob.name]
-            return file_list
+            tree = Pictures._create_tree(file_list)
+            return tree
         else:
             raise InvalidCredentials("Is there any empty credential")
 

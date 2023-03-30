@@ -80,7 +80,12 @@ class Pictures:
         bucket = client.get_bucket("testes-roque")
         for file in files:
             try:
-                blob = bucket.blob(f"{file_path}/{file.filename}")
+                blob_name = (
+                    f"{file_path}/{file.filename}"
+                    if file_path
+                    else file.filename
+                )
+                blob = bucket.blob(blob_name)
                 blob.upload_from_string(
                     await file.read(), content_type=file.content_type
                 )

@@ -23,3 +23,27 @@ async def extract_files(files: List[UploadFile]) -> List[UploadFile]:
         else:
             extracted_files.append(file)
     return extracted_files
+
+
+def create_tree(file_list: list, root_path: str):
+    root = []
+    node_dict = {}
+    root_parts = root_path.split("/")
+    for path in file_list:
+        current_node = root
+        parts = path.split("/")
+        for i, part in enumerate(parts):
+            if not part or (i < len(root_parts) and part == root_parts[i]):
+                continue
+            full_path = "/".join(parts[: i + 1])
+            if full_path not in node_dict:
+                node = {
+                    "title": part,
+                    "content": [] if i != len(parts) - 1 else [],
+                }
+                node_dict[full_path] = node
+                current_node.append(node)
+            current_node = node_dict[full_path]["content"]
+            if isinstance(current_node, dict):
+                break
+    return root

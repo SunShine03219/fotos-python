@@ -1,10 +1,12 @@
 import mimetypes
 import os
+from typing import List
 from urllib.parse import quote
 
-from fastapi import Response
+from fastapi import Response, UploadFile
+from google.cloud.exceptions import GoogleCloudError
 
-from utils.exceptions.exception import InvalidCredentials
+from utils.exceptions.exception import FileUploadError, InvalidCredentials
 from utils.middlewares.google_credentials_provider import (
     get_cloud_storage_client,
 )
@@ -48,7 +50,6 @@ class Pictures:
 
             blobs = bucket.list_blobs(prefix=blob.name)
             file_list = [quote(b.name) for b in blobs if b.name != blob.name]
-            print(file_list)
             tree = Pictures._create_tree(file_list)
             return tree
         else:
@@ -74,3 +75,17 @@ class Pictures:
                 return {"Error": e}
         else:
             raise InvalidCredentials("Is there any empty credential")
+
+    async def upload_files(files: List[UploadFile], file_path: str = ""):
+        bucket = client.get_bucket("testes-roque")
+        for file in files:
+            try:
+                blob = bucket.blob(f"{file_path}/{file.filename}")
+                blob.upload_from_string(
+                    await file.read(), content_type=file.content_type
+                )
+            except GoogleCloudError as e:
+                raise FileUploadError(
+                    f"Error sending file {file.filename}: {e}"
+                )
+        return {"message": "End of upload service"}

@@ -80,3 +80,21 @@ class InvalidCredentials(BaseInternalException):
             description=description,
             status_code=500,
         )
+
+
+class InvalidPathOrFile(BaseInternalException):
+    def __init__(self, description: str):
+        super().__init__(
+            name="INV_PATH",
+            description=description,
+            status_code=500,
+        )
+
+
+class FileUploadError(BaseInternalException):
+    def __init__(self, description: str):
+        super().__init__(
+            name="FAIL_UPLOAD",
+            description=description,
+            status_code=500,
+        )

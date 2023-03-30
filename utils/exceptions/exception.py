@@ -87,7 +87,7 @@ class InvalidPathOrFile(BaseInternalException):
         super().__init__(
             name="INV_PATH",
             description=description,
-            status_code=500,
+            status_code=404,
         )
 
 

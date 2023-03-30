@@ -6,7 +6,11 @@ from urllib.parse import quote
 from fastapi import Response, UploadFile
 from google.cloud.exceptions import GoogleCloudError
 
-from utils.exceptions.exception import FileUploadError, InvalidCredentials
+from utils.exceptions.exception import (
+    FileUploadError,
+    InvalidCredentials,
+    InvalidPathOrFile,
+)
 from utils.middlewares.google_credentials_provider import (
     get_cloud_storage_client,
 )
@@ -15,6 +19,7 @@ client = get_cloud_storage_client()
 
 
 class Pictures:
+    @staticmethod
     def _create_tree(file_list: list):
         root = []
         node_dict = {}
@@ -43,6 +48,7 @@ class Pictures:
                         root = node_dict[part]["content"]
         return root
 
+    @staticmethod
     async def get_files_path(file_path: str = ""):
         if client:
             bucket = client.get_bucket("testes-roque")
@@ -55,6 +61,7 @@ class Pictures:
         else:
             raise InvalidCredentials("Is there any empty credential")
 
+    @staticmethod
     async def get_file_source(file_path: str):
         if client:
             bucket = client.get_bucket("testes-roque")
@@ -76,6 +83,7 @@ class Pictures:
         else:
             raise InvalidCredentials("Is there any empty credential")
 
+    @staticmethod
     async def upload_files(files: List[UploadFile], file_path: str = ""):
         bucket = client.get_bucket("testes-roque")
         for file in files:
@@ -94,3 +102,33 @@ class Pictures:
                     f"Error sending file {file.filename}: {e}"
                 )
         return {"SUCCESS_UPLOAD": "End of upload service"}
+
+    @staticmethod
+    async def delete_file(file_path: str):
+        if client:
+            bucket = client.get_bucket("testes-roque")
+            blob = bucket.blob(blob_name=file_path)
+            if not blob.exists():
+                raise InvalidPathOrFile(f"File '{file_path}' not found.")
+            blob.delete()
+            return {
+                "SUCCESS_DELETE": f"File '{file_path}' deleted successfully."
+            }
+        else:
+            raise InvalidCredentials("Is there any empty credential")
+
+    @staticmethod
+    async def delete_folder(folder_path: str):
+        if client:
+            bucket = client.get_bucket("testes-roque")
+            blobs = list(bucket.list_blobs(prefix=folder_path))
+            if not blobs:
+                raise InvalidPathOrFile(f"Folder '{folder_path}' not found.")
+            for blob in blobs:
+                blob.delete()
+            return {
+                "SUCCESS_DELETE": f"Folder '{folder_path}'"
+                f" deleted successfully."
+            }
+        else:
+            raise InvalidCredentials("Is there any empty credential")

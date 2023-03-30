@@ -88,4 +88,4 @@ class Pictures:
                 raise FileUploadError(
                     f"Error sending file {file.filename}: {e}"
                 )
-        return {"message": "End of upload service"}
+        return {"SUCCESS_UPLOAD": "End of upload service"}

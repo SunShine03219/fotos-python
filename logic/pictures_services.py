@@ -15,7 +15,7 @@ from utils.exceptions.exception import (
     InvalidCredentials,
     InvalidPathOrFile,
 )
-from utils.middlewares.files_service import create_tree
+from utils.middlewares.files_service import create_tree, get_new_name
 from utils.middlewares.google_credentials_provider import (
     get_cloud_storage_client,
 )
@@ -76,14 +76,32 @@ class Pictures:
     @staticmethod
     async def upload_files(files: List[UploadFile], file_path: str = ""):
         bucket = client.get_bucket("testes-roque")
+        update_path = {}
+        count = 1
+
         for file in files:
-            try:
+            path, item = os.path.split(file.filename)
+            if path in update_path:
+                file.filename = file.filename.replace(path, update_path[path])
+            blob_name = (
+                f"{file_path}/{file.filename}" if file_path else file.filename
+            )
+            blob = bucket.blob(blob_name)
+            while blob.exists():
+                if path:
+                    update_path[path] = get_new_name(path, count)
+                    count += 1
+                else:
+                    file.filename = get_new_name(file.filename, count)
+                    count += 1
                 blob_name = (
                     f"{file_path}/{file.filename}"
                     if file_path
                     else file.filename
                 )
                 blob = bucket.blob(blob_name)
+            count = 1
+            try:
                 blob.upload_from_string(
                     await file.read(), content_type=file.content_type
                 )

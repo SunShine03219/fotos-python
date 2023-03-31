@@ -29,9 +29,20 @@ class Pictures:
         if client:
             bucket = client.get_bucket("testes-roque")
             blob = bucket.blob(blob_name=file_path)
-
-            blobs = bucket.list_blobs(prefix=blob.name)
-            file_list = [quote(b.name) for b in blobs if b.name != blob.name]
+            if file_path:
+                prefix = (
+                    blob.name if blob.name.endswith("/") else f"{blob.name}/"
+                )
+            else:
+                prefix = ""
+            blobs = bucket.list_blobs(prefix=prefix)
+            file_list = [
+                quote(b.name.replace(prefix, "", 1))
+                for b in blobs
+                if b.name != prefix
+            ]
+            if not file_list:
+                raise InvalidPathOrFile(f"Invalid path: '{file_path}'")
             tree = create_tree(file_list, file_path)
             return tree
         else:
@@ -42,6 +53,9 @@ class Pictures:
         if client:
             bucket = client.get_bucket("testes-roque")
             blob = bucket.blob(blob_name=file_path)
+
+            if not blob.exists():
+                raise InvalidPathOrFile(f"Invalid file: '{file_path}'")
 
             try:
                 media_type, encoding = mimetypes.guess_type(blob.name)

@@ -31,6 +31,15 @@ async def delete_file(file_path: str):
         return await Pictures.delete_file(file_path)
 
 
+@pic_router.get("/download/{file_path:path}")
+async def download_file(file_path: str):
+    is_folder = file_or_folder_validator(file_path)
+    if is_folder:
+        return await Pictures.download_folder(file_path)
+    else:
+        return await Pictures.download_file(file_path)
+
+
 @pic_router.get("/{file_path:path}")
 async def read_file(file_path: str):
     is_folder = file_or_folder_validator(file_path)

@@ -1,11 +1,16 @@
 import mimetypes
+import os
+import shutil
+import tempfile
 from typing import List
 from urllib.parse import quote
 
 from fastapi import Response, UploadFile
+from fastapi.responses import FileResponse
 from google.cloud.exceptions import GoogleCloudError
 
 from utils.exceptions.exception import (
+    FileDownloadError,
     FileUploadError,
     InvalidCredentials,
     InvalidPathOrFile,
@@ -101,5 +106,58 @@ class Pictures:
                 "SUCCESS_DELETE": f"Folder '{folder_path}'"
                 f" deleted successfully."
             }
+        else:
+            raise InvalidCredentials("Is there any empty credential")
+
+    @staticmethod
+    async def download_file(file_path: str):
+        if client:
+            bucket = client.get_bucket("testes-roque")
+            blob = bucket.blob(blob_name=file_path)
+            if blob.exists():
+                try:
+                    media_type, encoding = mimetypes.guess_type(blob.name)
+                    return Response(
+                        content=blob.download_as_bytes(),
+                        media_type="application/octet-stream",
+                        headers={
+                            "Content-Disposition": f"attachment;"
+                            f' filename="{os.path.basename(blob.name)}"',
+                            "Content-Type": f"{media_type}",
+                        },
+                    )
+                except GoogleCloudError as e:
+                    raise FileDownloadError(
+                        f"Error downloading file "
+                        f"{os.path.basename(blob.name)}: {e}"
+                    )
+            else:
+                raise InvalidPathOrFile(
+                    f"File {os.path.basename(blob.name)} does not exist"
+                )
+        else:
+            raise InvalidCredentials("Is there any empty credential")
+
+    @staticmethod
+    async def download_folder(file_path: str):
+        if client:
+            bucket = client.get_bucket("testes-roque")
+            blobs = list(bucket.list_blobs(prefix=file_path))
+            if blobs:
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    for blob in blobs:
+                        file_name = os.path.join(temp_dir, blob.name)
+                        os.makedirs(os.path.dirname(file_name), exist_ok=True)
+                        blob.download_to_filename(file_name)
+                    shutil.make_archive(temp_dir, "zip", temp_dir)
+                    return FileResponse(
+                        f"{temp_dir}.zip",
+                        media_type="application/zip",
+                        filename=f"{os.path.basename(file_path)}.zip",
+                    )
+            else:
+                raise InvalidPathOrFile(
+                    f"Folder {os.path.basename(file_path)} does not exist"
+                )
         else:
             raise InvalidCredentials("Is there any empty credential")

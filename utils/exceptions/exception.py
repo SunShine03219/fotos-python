@@ -98,3 +98,12 @@ class FileUploadError(BaseInternalException):
             description=description,
             status_code=500,
         )
+
+
+class FileDownloadError(BaseInternalException):
+    def __init__(self, description: str):
+        super().__init__(
+            name="FAIL_DOWNLOAD",
+            description=description,
+            status_code=500,
+        )

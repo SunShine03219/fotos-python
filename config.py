@@ -49,3 +49,5 @@ class Config(metaclass=SingletonMeta):
     }
 
     IS_EMPTY = _verify_credentials(CREDENTIALS)
+
+    BUCKET_NAME = getenv("BUCKET_NAME")

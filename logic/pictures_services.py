@@ -5,6 +5,7 @@ import tempfile
 from typing import List
 from urllib.parse import quote
 
+from config import Config
 from fastapi import Response, UploadFile
 from fastapi.responses import FileResponse
 from google.cloud.exceptions import GoogleCloudError
@@ -27,7 +28,7 @@ class Pictures:
     @staticmethod
     async def get_files_path(file_path: str = ""):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blob = bucket.blob(blob_name=file_path)
             if file_path:
                 prefix = (
@@ -51,7 +52,7 @@ class Pictures:
     @staticmethod
     async def get_file_source(file_path: str):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blob = bucket.blob(blob_name=file_path)
 
             if not blob.exists():
@@ -75,7 +76,7 @@ class Pictures:
 
     @staticmethod
     async def upload_files(files: List[UploadFile], file_path: str = ""):
-        bucket = client.get_bucket("testes-roque")
+        bucket = client.get_bucket(Config.BUCKET_NAME)
         update_path = {}
         count = 1
 
@@ -114,7 +115,7 @@ class Pictures:
     @staticmethod
     async def delete_file(file_path: str):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blob = bucket.blob(blob_name=file_path)
             if not blob.exists():
                 raise InvalidPathOrFile(f"File '{file_path}' not found.")
@@ -128,7 +129,7 @@ class Pictures:
     @staticmethod
     async def delete_folder(folder_path: str):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blobs = list(bucket.list_blobs(prefix=folder_path))
             if not blobs:
                 raise InvalidPathOrFile(f"Folder '{folder_path}' not found.")
@@ -144,7 +145,7 @@ class Pictures:
     @staticmethod
     async def download_file(file_path: str):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blob = bucket.blob(blob_name=file_path)
             if blob.exists():
                 try:
@@ -173,7 +174,7 @@ class Pictures:
     @staticmethod
     async def download_folder(file_path: str):
         if client:
-            bucket = client.get_bucket("testes-roque")
+            bucket = client.get_bucket(Config.BUCKET_NAME)
             blobs = list(bucket.list_blobs(prefix=file_path))
             if blobs:
                 with tempfile.TemporaryDirectory() as temp_dir:

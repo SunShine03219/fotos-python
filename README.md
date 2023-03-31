@@ -63,6 +63,9 @@ AUTH_URI=""
 TOKEN_URI=""
 AUTH_PROVIDER_x509_CERT_URL=""
 CLIENT_x509_CERT_URL=""
+
+# Change it for use your bucket-name
+BUCKET_NAME=""
 ```
 
 ## Start database migration (getting last version)

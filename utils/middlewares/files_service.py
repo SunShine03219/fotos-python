@@ -47,3 +47,13 @@ def create_tree(file_list: list, root_path: str):
             if isinstance(current_node, dict):
                 break
     return root
+
+
+def get_new_name(name: str, count: int) -> str:
+    base, ext = os.path.splitext(name)
+    if base.endswith(f" ({count-1})"):
+        new_base = base[: base.rfind(f" ({count-1})")]
+        new_name = f"{new_base} ({count}){ext}"
+    else:
+        new_name = f"{base} ({count}){ext}"
+    return new_name

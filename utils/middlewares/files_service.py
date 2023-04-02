@@ -2,7 +2,7 @@ import io
 import os
 import zipfile
 from typing import List
-
+from urllib.parse import unquote
 from fastapi import UploadFile
 
 
@@ -38,7 +38,7 @@ def create_tree(file_list: list, root_path: str):
             full_path = "/".join(parts[: i + 1])
             if full_path not in node_dict:
                 node = {
-                    "title": part,
+                    "title": unquote(part),
                     "content": [] if i != len(parts) - 1 else [],
                 }
                 node_dict[full_path] = node

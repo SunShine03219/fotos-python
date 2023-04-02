@@ -22,6 +22,11 @@ async def upload_file(file_path: str, file: List[UploadFile]):
     raise InvalidPathOrFile("There were problems with the order")
 
 
+@pic_router.post("/folder/create/{file_path:path}")
+async def create_folder(file_path: str):
+    return await Pictures.create_folder(file_path)
+
+
 @pic_router.delete("/delete/{file_path:path}")
 async def delete_file(file_path: str):
     is_folder = file_or_folder_validator(file_path)

@@ -113,6 +113,18 @@ class Pictures:
         return {"SUCCESS_UPLOAD": "End of upload service"}
 
     @staticmethod
+    async def create_folder(folder_path: str = ""):
+        bucket = client.get_bucket(Config.BUCKET_NAME)
+        blob = bucket.blob(folder_path)
+        try:
+            blob.upload_from_string('', content_type='application/x-www-form-urlencoded;charset=UTF-8')
+        except GoogleCloudError as e:
+            raise FileUploadError(
+                f"Error creating folder {folder_path}: {e}"
+            )
+        return {"SUCCESS_UPLOAD": "End of upload service"}
+
+    @staticmethod
     async def delete_file(file_path: str):
         if client:
             bucket = client.get_bucket(Config.BUCKET_NAME)

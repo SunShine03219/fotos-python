@@ -32,4 +32,4 @@ if __name__ == "__main__":
 
     # Start FastAPI application including all necessary routers and handlers with SSL/TLS encryption
     app, ssl_context = create_app()
-    uvicorn.run(app, host=api_path, port=api_port, ssl=ssl_context)
+    uvicorn.run(app=app, host=api_path, port=api_port, ssl=ssl_context)

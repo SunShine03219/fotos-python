@@ -14,14 +14,10 @@ PARSER.add_argument("--port")
 def create_app():
     global_app = FastAPI()
 
-    # Define SSL/TLS context and load certificate and key files
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-    ssl_context.load_cert_chain('cert/cert.pem', keyfile='cert/key.pem')
-
     RouterDefiner().define_routers(app=global_app)
     MiddlewareDefiner().define_handlers(app=global_app)
     CorsDefiner().define_cors(app=global_app)
-    return global_app, ssl_context
+    return global_app
 
 
 if __name__ == "__main__":
@@ -30,6 +26,10 @@ if __name__ == "__main__":
     api_port = arguments.port if arguments.port else 8000
     api_path = arguments.path if arguments.path else "0.0.0.0"
 
+    # Define SSL/TLS context and load certificate and key files
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
+    ssl_context.load_cert_chain('cert/cert.pem', keyfile='cert/key.pem')
+
     # Start FastAPI application including all necessary routers and handlers with SSL/TLS encryption
-    app, ssl_context = create_app()
+    app = create_app()
     uvicorn.run(app=app, host=api_path, port=api_port, ssl=ssl_context)

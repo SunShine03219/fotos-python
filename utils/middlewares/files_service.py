@@ -27,18 +27,26 @@ async def extract_files(files: List[UploadFile]) -> List[UploadFile]:
     return extracted_files
 
 
+def generate_preview_url(blob):
+    extension = os.path.splitext(blob.name)[1].lower()
+
+    if extension in ['.jpg', '.jpeg', '.png', '.gif']:
+        return blob.generate_signed_url(
+            version="v4",
+            expiration=timedelta(minutes=5),
+            method="GET",
+        )
+    else:
+        return None
+
+
 def create_tree(file_list: list, root_path: str, prefix: str):
     root = []
     node_dict = {}
     root_parts = root_path.split("/")
     for blob in file_list:
         path = quote(blob.name.replace(prefix, "", 1))
-
-        preview_url = blob.generate_signed_url(
-            version="v4",
-            expiration=timedelta(minutes=5),
-            method="GET",
-        )
+        preview_url = generate_preview_url(blob)
 
         current_node = root
         parts = path.split("/")

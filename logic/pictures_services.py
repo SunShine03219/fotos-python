@@ -38,13 +38,13 @@ class Pictures:
                 prefix = ""
             blobs = bucket.list_blobs(prefix=prefix)
             file_list = [
-                quote(b.name.replace(prefix, "", 1))
+                b
                 for b in blobs
                 if b.name != prefix
             ]
             if not file_list:
                 raise InvalidPathOrFile(f"Invalid path: '{file_path}'")
-            tree = create_tree(file_list, file_path)
+            tree = create_tree(file_list, file_path, prefix)
             return tree
         else:
             raise InvalidCredentials("Is there any empty credential")

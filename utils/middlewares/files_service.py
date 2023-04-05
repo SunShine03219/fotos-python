@@ -4,6 +4,8 @@ import zipfile
 from typing import List
 from urllib.parse import unquote
 from fastapi import UploadFile
+from urllib.parse import quote
+from datetime import timedelta
 
 
 async def extract_files(files: List[UploadFile]) -> List[UploadFile]:
@@ -25,11 +27,19 @@ async def extract_files(files: List[UploadFile]) -> List[UploadFile]:
     return extracted_files
 
 
-def create_tree(file_list: list, root_path: str):
+def create_tree(file_list: list, root_path: str, prefix: str):
     root = []
     node_dict = {}
     root_parts = root_path.split("/")
-    for path in file_list:
+    for blob in file_list:
+        path = quote(blob.name.replace(prefix, "", 1))
+
+        preview_url = blob.generate_signed_url(
+            version="v4",
+            expiration=timedelta(minutes=5),
+            method="GET",
+        )
+
         current_node = root
         parts = path.split("/")
         for i, part in enumerate(parts):
@@ -40,6 +50,7 @@ def create_tree(file_list: list, root_path: str):
                 node = {
                     "title": unquote(part),
                     "content": [] if i != len(parts) - 1 else [],
+                    "preview_url": preview_url
                 }
                 node_dict[full_path] = node
                 current_node.append(node)
